@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
+import database from '@react-native-firebase/database';
 
 export default function App() {
 
@@ -11,9 +11,10 @@ export default function App() {
 
   const getDatabase = async() =>{
     try{
-      const data = await firestore().collection("testing").doc("UdLBTiIODGynTZzTZa9q").get();
-      console.log(data._data);
-      setMyData(data._data);
+      const data = await database().ref('users/1').once('value');
+      console.log(data);
+      setMyData(data.val())
+      
 
     }catch(err){
       console.log(err)
@@ -23,9 +24,9 @@ export default function App() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center',backgroundColor:'yellow' }}>
       
-        <Text>Name: {myData?myData.Name:"Loading..."}</Text>
-        <Text>Age: {myData?myData.Age:"Loading..."}</Text>
-        <Text>Salary: {myData?myData.Salary:"Loading..."}</Text> 
+        <Text>Name: {myData?myData.name:"Loading..."}</Text>
+        <Text>Age: {myData?myData.age:"Loading..."}</Text>
+        <Text>Salary: {myData?myData.post:"Loading..."}</Text> 
         
       
     </View>
